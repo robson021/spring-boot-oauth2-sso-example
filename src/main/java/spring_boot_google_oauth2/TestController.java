@@ -1,8 +1,6 @@
 package spring_boot_google_oauth2;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,18 +19,13 @@ public class TestController {
     }
 
     @GetMapping("/my-authorities")
-    public Collection<GrantedAuthority> getAuthorities() {
-        return getAuthentication().getAuthorities();
+    public Collection<GrantedAuthority> getAuthorities(OAuth2Authentication auth) {
+        return auth.getAuthorities();
     }
 
     @GetMapping("/my-full-info")
-    public OAuth2Authentication getMyFullInfo() {
-        return getAuthentication();
-    }
-
-    private OAuth2Authentication getAuthentication() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return (OAuth2Authentication) auth;
+    public OAuth2Authentication getMyFullInfo(OAuth2Authentication auth) {
+        return auth;
     }
 
 }
